@@ -21,9 +21,8 @@ class RestfulTable extends React.Component {
     render() {
         const me=this;
         var optionsProp = {
-          afterTableComplete: me.onAfterTableComplete.bind(me), // A hook for after table render complete.
           afterDeleteRow: me.onAfterDeleteRow.bind(me),  // A hook for after droping rows.
-          afterInsertRow: me.onAfterInsertRow.bind(me)   // A hook for after insert rows
+          afterInsertRow: me.onAfterInsertRow.bind(me),   // A hook for after insert rows
         };
         var cellEditProp = {
           mode: "click",
@@ -47,9 +46,6 @@ class RestfulTable extends React.Component {
         );
     }
 
-    onAfterTableComplete(){
-
-    }
     onAfterDeleteRow(rowKeys){
       const me=this;
       console.log('delete',rowKeys)
@@ -79,8 +75,14 @@ class RestfulTable extends React.Component {
     }
 
     onAfterSaveCell(row, cellName, cellValue){
+      const {cellEdit}=this.props;
+
+      row[cellName]=cellValue;
       const {url,keyField}=this.props;
       agent.put(url+'/'+row[keyField],row).then(resp=>{
+        if(typeof cellEdit.afterSaveCell=='function'){
+          cellEdit.afterSaveCell(row, cellName, cellValue);
+        }
       })
     }
 

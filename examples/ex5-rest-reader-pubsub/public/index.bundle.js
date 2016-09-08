@@ -1,5 +1,6 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([0],{
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16,6 +17,7 @@ webpackJsonp([0],[
 
 	var RestReader = __webpack_require__(3);
 	var RestfulTable = __webpack_require__(12);
+	var PubSub = __webpack_require__(61);
 
 	var Viewer = function Viewer(props) {
 	  return _react2.default.createElement(
@@ -24,15 +26,18 @@ webpackJsonp([0],[
 	    JSON.stringify(props.data, null, 2)
 	  );
 	};
-
+	function publishChange() {
+	  console.log('onAfterTableComplete');
+	  PubSub.publish('changed');
+	}
 	_reactDom2.default.render(_react2.default.createElement(
 	  'div',
 	  null,
-	  _react2.default.createElement(RestReader, { url: '/api/post', view: Viewer }),
+	  _react2.default.createElement(RestReader, { url: '/api/post', view: Viewer, subscribe: ["changed"] }),
 	  _react2.default.createElement(
 	    RestfulTable,
 	    { url: '/api/post', keyField: '_id',
-	      insertRow: true },
+	      insertRow: true, options: { afterTableComplete: publishChange }, cellEdit: { afterSaveCell: publishChange } },
 	    _react2.default.createElement(
 	      TableHeaderColumn,
 	      { dataField: 'title' },
@@ -47,9 +52,8 @@ webpackJsonp([0],[
 	), document.getElementById('root'));
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */
+
+/***/ 3:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57,7 +61,8 @@ webpackJsonp([0],[
 	module.exports = __webpack_require__(4);
 
 /***/ },
-/* 4 */
+
+/***/ 4:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -155,7 +160,7 @@ webpackJsonp([0],[
 	            var me = this;
 	            var mySubscriber = function mySubscriber(msg, data) {
 	                console.log(msg, data);
-	                me.fetchData();
+	                me.fetchData(me.props);
 	            };
 	            var subscribe = this.props.subscribe || [];
 	            this.tokens = subscribe.map(function (msg) {
@@ -232,7 +237,8 @@ webpackJsonp([0],[
 	module.exports = RestReader;
 
 /***/ },
-/* 5 */
+
+/***/ 5:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -261,13 +267,8 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */
+
+/***/ 12:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -344,8 +345,7 @@ webpackJsonp([0],[
 	      var me = this;
 	      var optionsProp = {
 	        afterDeleteRow: me.onAfterDeleteRow.bind(me), // A hook for after droping rows.
-	        afterInsertRow: me.onAfterInsertRow.bind(me) // A hook for after insert rows
-	      };
+	        afterInsertRow: me.onAfterInsertRow.bind(me) };
 	      var cellEditProp = {
 	        mode: "click",
 	        blurToSave: true,
@@ -412,12 +412,18 @@ webpackJsonp([0],[
 	  }, {
 	    key: 'onAfterSaveCell',
 	    value: function onAfterSaveCell(row, cellName, cellValue) {
+	      var cellEdit = this.props.cellEdit;
+
 	      row[cellName] = cellValue;
 	      var _props3 = this.props;
 	      var url = _props3.url;
 	      var keyField = _props3.keyField;
 
-	      agent.put(url + '/' + row[keyField], row).then(function (resp) {});
+	      agent.put(url + '/' + row[keyField], row).then(function (resp) {
+	        if (typeof cellEdit.afterSaveCell == 'function') {
+	          cellEdit.afterSaveCell(row, cellName, cellValue);
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'componentDidMount',
@@ -443,5 +449,13 @@ webpackJsonp([0],[
 
 	module.exports = RestfulTable;
 
+/***/ },
+
+/***/ 61:
+/***/ function(module, exports) {
+
+	module.exports = PubSub;
+
 /***/ }
-]);
+
+});

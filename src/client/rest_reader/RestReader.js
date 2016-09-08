@@ -40,7 +40,7 @@ class RestReader extends React.Component {
         const me=this;
         var mySubscriber = function( msg, data ){
             console.log( msg, data );
-            me.fetchData();
+            me.fetchData(me.props);
         };
         const subscribe=this.props.subscribe||[];
         this.tokens=subscribe.map(msg=>{
