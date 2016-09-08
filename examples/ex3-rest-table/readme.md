@@ -23,6 +23,8 @@ keyField: id字段的字段名
 样例：
 
 ```js
+var RestfulTable=require('react-restui/lib/client/rest_table');
+
 <RestfulTable url='/api/post' keyField="_id" >                
     <TableHeaderColumn dataField="..." >...</TableHeaderColumn>
     <TableHeaderColumn dataField="..." >...</TableHeaderColumn>
