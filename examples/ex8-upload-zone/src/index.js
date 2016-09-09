@@ -15,8 +15,9 @@ class ImageUploader extends React.Component {
         const {url}=this.state;
         return (
             <div className="image_uploader">
-                 <UploadZone url="/upload" onUploaded={this.onUploaded.bind(this)} accept="image/*"/>
-                 {!url?null:<img src={url}/>}
+                 <UploadZone url="/upload" onUploaded={this.onUploaded.bind(this)} accept="image/*">
+                 {!url?null:<img src={url} style={{maxWidth:"200px",maxHeight:"200px"}}/>}
+                 </UploadZone>
             </div>
         );
     }

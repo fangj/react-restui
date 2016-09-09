@@ -2,13 +2,13 @@ require('./UploadZone.less');
 var Dropzone = require('react-dropzone');
 var agent = require('superagent-promise')(require('superagent'),Promise);
 
-const defaultView=(props)=><div style={{fontSize:"120px",textAlign:"center"}}>+</div>
+const DefaultView=(props)=><div style={{fontSize:"120px",textAlign:"center"}}>+</div>
 
 class UploadZone extends React.Component {
 
 
     static propTypes  ={
-        view: React.PropTypes.element,
+        children: React.PropTypes.node, // Contents of the dropzone
         url: React.PropTypes.string.isRequired,
         onUploaded:React.PropTypes.func.isRequired
     };
@@ -17,16 +17,16 @@ class UploadZone extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            children:props.children
         };
     }
 
     render() {
         let me = this;
-        const {view,url,onUploaded,...others}=this.props;
-        const View=view||defaultView;
+        const {url,onUploaded,...others}=this.props;
         return (
             <Dropzone onDrop={this.onDrop.bind(this)} {...others}>
-              <View/>
+              {this.state.children||<DefaultView/>}
             </Dropzone>
         );
     }
@@ -52,27 +52,12 @@ class UploadZone extends React.Component {
 
     }
 
-    componentWillMount() {
-    }
-
-    componentDidMount() {
-    }
-
     componentWillReceiveProps(nextProps) {
+        this.setState({children:nextProps.children})
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return true;
-    }
 
-    componentWillUpdate(nextProps, nextState) {
-    }
 
-    componentDidUpdate(prevProps, prevState) {
-    }
-
-    componentWillUnmount() {
-    }
 }
 
 module.exports = UploadZone;

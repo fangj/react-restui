@@ -46,8 +46,11 @@ webpackJsonp([0],{
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'image_uploader' },
-	                _react2.default.createElement(UploadZone, { url: '/upload', onUploaded: this.onUploaded.bind(this), accept: 'image/*' }),
-	                !url ? null : _react2.default.createElement('img', { src: url })
+	                _react2.default.createElement(
+	                    UploadZone,
+	                    { url: '/upload', onUploaded: this.onUploaded.bind(this), accept: 'image/*' },
+	                    !url ? null : _react2.default.createElement('img', { src: url, style: { maxWidth: "200px", maxHeight: "200px" } })
+	                )
 	            );
 	        }
 	    }, {
@@ -129,7 +132,7 @@ webpackJsonp([0],{
 	var Dropzone = __webpack_require__(55);
 	var agent = __webpack_require__(56)(__webpack_require__(57), Promise);
 
-	var defaultView = function defaultView(props) {
+	var DefaultView = function DefaultView(props) {
 	    return React.createElement('div', { style: { fontSize: "120px", textAlign: "center" } }, '+');
 	};
 
@@ -141,7 +144,9 @@ webpackJsonp([0],{
 
 	        var _this = _possibleConstructorReturn(this, (UploadZone.__proto__ || Object.getPrototypeOf(UploadZone)).call(this, props));
 
-	        _this.state = {};
+	        _this.state = {
+	            children: props.children
+	        };
 	        return _this;
 	    }
 
@@ -150,14 +155,12 @@ webpackJsonp([0],{
 	        value: function render() {
 	            var me = this;
 	            var _props = this.props;
-	            var view = _props.view;
 	            var url = _props.url;
 	            var onUploaded = _props.onUploaded;
 
-	            var others = _objectWithoutProperties(_props, ['view', 'url', 'onUploaded']);
+	            var others = _objectWithoutProperties(_props, ['url', 'onUploaded']);
 
-	            var View = view || defaultView;
-	            return React.createElement(Dropzone, _extends({ onDrop: this.onDrop.bind(this) }, others), React.createElement(View, null));
+	            return React.createElement(Dropzone, _extends({ onDrop: this.onDrop.bind(this) }, others), this.state.children || React.createElement(DefaultView, null));
 	        }
 	    }, {
 	        key: 'onDrop',
@@ -185,35 +188,17 @@ webpackJsonp([0],{
 	        key: 'onProgress',
 	        value: function onProgress(e) {}
 	    }, {
-	        key: 'componentWillMount',
-	        value: function componentWillMount() {}
-	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {}
-	    }, {
 	        key: 'componentWillReceiveProps',
-	        value: function componentWillReceiveProps(nextProps) {}
-	    }, {
-	        key: 'shouldComponentUpdate',
-	        value: function shouldComponentUpdate(nextProps, nextState) {
-	            return true;
+	        value: function componentWillReceiveProps(nextProps) {
+	            this.setState({ children: nextProps.children });
 	        }
-	    }, {
-	        key: 'componentWillUpdate',
-	        value: function componentWillUpdate(nextProps, nextState) {}
-	    }, {
-	        key: 'componentDidUpdate',
-	        value: function componentDidUpdate(prevProps, prevState) {}
-	    }, {
-	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {}
 	    }]);
 
 	    return UploadZone;
 	}(React.Component);
 
 	UploadZone.propTypes = {
-	    view: React.PropTypes.element,
+	    children: React.PropTypes.node, // Contents of the dropzone
 	    url: React.PropTypes.string.isRequired,
 	    onUploaded: React.PropTypes.func.isRequired
 	};
