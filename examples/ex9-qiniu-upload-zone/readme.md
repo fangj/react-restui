@@ -1,28 +1,29 @@
-# UploadZone
+# QiniuQiniuUploadZone
 
-UploadZone用于上传文件到服务器
+QiniuUploadZone用于上传文件到服务器
 
 Server:
 
-引用中间件，参数为express app和上传路径
-require('react-restui/lib/server/uploadify')(app,'uploads'); //for upload_zone
+引用中间件，参数为(app,ACCESS_KEY,SECRET_KEY,bucket)
+require('./qntoken')(app,"qiniu ACCESS_KEY","qiniu SECRET_KEY","qiniu bucket");
 
 
 Client:
 
-<UploadZone url="/upload" onUploaded={(files)=>{}} accept="image/*"/>
+<QiniuUploadZone tokenUrl="/qntoken" host="http://...qiniu.com图片在七牛服务器的host" onUploaded={this.onUploaded.bind(this)} />
 
 
 属性：
 
-url:服务地址，中间件提供的服务为"/upload" 
+tokenUrl:返回七牛uptoken的地址 
+host:七牛文件服务器的host
 onUploaded:上传完成的回调
 其他:参考react-dropzone组件。
 
 样例：
 
 ```js
-var UploadZone=require('react-restui/lib/client/upload_zone');
+var QiniuUploadZone=require('react-restui/lib/client/qiniu_upload_zone');
 
 class ImageUploader extends React.Component {
     constructor(props) {
@@ -36,9 +37,9 @@ class ImageUploader extends React.Component {
         const {url}=this.state;
         return (
             <div className="image_uploader">
-                 <UploadZone url="/upload" onUploaded={this.onUploaded.bind(this)} accept="image/*">
+                 <QiniuUploadZone tokenUrl="/qntoken" host="http://7sbkh6.com1.z0.glb.clouddn.com" onUploaded={this.onUploaded.bind(this)} accept="image/*">
                  {!url?null:<img src={url} style={{maxWidth:"200px",maxHeight:"200px"}}/>}
-                 </UploadZone>
+                 </QiniuUploadZone>
             </div>
         );
     }

@@ -9,12 +9,12 @@ function makeFileName(originalname){
     var basename=path.basename(originalname,extname);
     return basename + '-' + Date.now()+extname;
 }
-const defaultView=(props)=><div style={{fontSize:"120px",textAlign:"center"}}>+</div>
+const DefaultView=(props)=><div style={{fontSize:"120px",textAlign:"center"}}>+</div>
 
 class QiniuUploadZone extends React.Component {
 
     static propTypes  ={
-        view: React.PropTypes.element,
+        children: React.PropTypes.node, // Contents of the dropzone
         tokenUrl: React.PropTypes.string.isRequired,
         host: React.PropTypes.string.isRequired,
         onUploaded:React.PropTypes.func.isRequired
@@ -23,6 +23,7 @@ class QiniuUploadZone extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            children:props.children
         };
     }
 
@@ -32,11 +33,10 @@ class QiniuUploadZone extends React.Component {
         if(!uptoken){
             return null;
         }
-        const {view,host,tokenUrl,onUploaded,...others}=this.props;
-        const View=view||defaultView;
+        const {host,tokenUrl,onUploaded,...others}=this.props;
         return (
             <Dropzone onDrop={this.onDrop.bind(this)} {...others}>
-              <View/>
+              {this.state.children||<DefaultView/>}
             </Dropzone>
         );
     }
@@ -75,9 +75,6 @@ class QiniuUploadZone extends React.Component {
 
     }
 
-    componentWillMount() {
-    }
-
     componentDidMount() {
         const {tokenUrl}=this.props;
         agent.get(tokenUrl).then(res=>{
@@ -87,20 +84,9 @@ class QiniuUploadZone extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        this.setState({children:nextProps.children})
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return true;
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-    }
-
-    componentWillUnmount() {
-    }
 }
 
 module.exports = QiniuUploadZone;
