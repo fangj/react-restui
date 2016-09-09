@@ -17,12 +17,18 @@ const schema = {
   }
 };
 
-const todoForm=(props)=><Form schema={schema} onSubmit={(obj)=>props.save(obj.formData)}/>
+const todoForm=(props)=><Form schema={schema} formData={props.data} onSubmit={(obj)=>props.update(obj.formData)}>
+        <div className="btn-toolbar">
+            <button type="submit" className="btn btn-success">保存</button>
+            <a className="btn btn-danger" onClick={props.remove}>删除</a>
+        </div>
+</Form>
 
 ReactDOM.render(
   <div>
-    <RestWriter url="/api/post" view={todoForm}  publish="changed"/>
-    <RestReader url='/api/post' view={Viewer} subscribe={["changed"]}/> 
+    <RestWriter url="/api/post" id="3xHXzqOZ75cu0IAt" view={todoForm}  publish="changed"/>
+    <RestReader url="/api/post" view={Viewer} subscribe={["changed"]}/> 
   </div> ,
   document.getElementById('root')
 );
+

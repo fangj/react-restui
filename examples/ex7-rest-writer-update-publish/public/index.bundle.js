@@ -44,7 +44,7 @@ webpackJsonp([0],[
 	  return _react2.default.createElement(
 	    _reactJsonschemaForm2.default,
 	    { schema: schema, formData: props.data, onSubmit: function onSubmit(obj) {
-	        return props.save(obj.formData);
+	        return props.update(obj.formData);
 	      } },
 	    _react2.default.createElement(
 	      'div',
@@ -56,7 +56,7 @@ webpackJsonp([0],[
 	      ),
 	      _react2.default.createElement(
 	        'a',
-	        { className: 'btn btn-danger', onClick: props.remove() },
+	        { className: 'btn btn-danger', onClick: props.remove },
 	        '删除'
 	      )
 	    )
@@ -67,7 +67,7 @@ webpackJsonp([0],[
 	  'div',
 	  null,
 	  _react2.default.createElement(RestWriter, { url: '/api/post', id: '3xHXzqOZ75cu0IAt', view: todoForm, publish: 'changed' }),
-	  _react2.default.createElement(RestReader, { url: '/api/post/3xHXzqOZ75cu0IAt', view: Viewer, subscribe: ["changed"] })
+	  _react2.default.createElement(RestReader, { url: '/api/post', view: Viewer, subscribe: ["changed"] })
 	), document.getElementById('root'));
 
 /***/ },
