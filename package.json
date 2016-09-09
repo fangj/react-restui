@@ -13,6 +13,7 @@
   "dependencies": {
     "pubsub-js": "^1.5.3",
     "react-bootstrap-table": "^2.5.1",
+    "react-jsonschema-form": "^0.40.0",
     "superagent": "^2.2.0",
     "superagent-promise": "^1.1.0"
   },

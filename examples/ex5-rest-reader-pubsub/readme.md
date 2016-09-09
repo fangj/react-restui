@@ -1,5 +1,7 @@
 # rest-reader
 
+RestReader用于包装一个react 组件，使之自动得到url返回的数据
+
 Server:
 
 假如服务器端提供了一个可以GET的url

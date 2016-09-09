@@ -5,10 +5,11 @@ var RestfulTable=require('react-restui/lib/client/rest_table');
 var PubSub=require('pubsub-js');
 
 const Viewer=props=><pre>{JSON.stringify(props.data,null,2)}</pre>
+
 function publishChange(){
-  console.log('onAfterTableComplete')
   PubSub.publish('changed');
-}        
+}   
+     
 ReactDOM.render(
   <div>
    <RestReader url='/api/post' view={Viewer} subscribe={["changed"]}/> 
