@@ -1,5 +1,5 @@
 // require('./RestChooser.less');
-import RestReader from "../../components/rest_reader";
+import RestReader from "../rest_reader";
 import cx from "classnames";
 const browser=(props)=>{
     const {data,thumbView,keyField,onChoose,chosen}=props;

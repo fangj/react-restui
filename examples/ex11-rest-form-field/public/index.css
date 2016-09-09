@@ -1,0 +1,44 @@
+.thumb {
+  width: 100px;
+  height: 100px;
+  background-color: lightblue;
+  cursor: pointer;
+}
+.thumb:hover {
+  background-color: blue;
+  color: white;
+}
+.modal-container {
+  min-height: 400px;
+  padding: 20px;
+}
+.browser .new,
+.browser .old {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  overflow: hidden;
+  margin: 10px 10px 0 0;
+  float: left;
+}
+.browser:after {
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
+  clear: both;
+}
+.browser .new {
+  background-color: lightgreen;
+}
+.browser .new:hover {
+  background-color: darkgreen;
+  color: white;
+}
+.browser .old {
+  background-color: lightblue;
+}
+.browser .old:hover {
+  background-color: darkblue;
+  color: white;
+}

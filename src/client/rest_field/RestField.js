@@ -1,6 +1,6 @@
 import {Modal} from "react-bootstrap";
-import RestChooser from "../../components/rest_chooser";
-import RestReader from "../../components/rest_reader";
+import RestChooser from "../rest_chooser";
+import RestReader from "../rest_reader";
 
 function Label(props) {
   const {label, required, id} = props;
