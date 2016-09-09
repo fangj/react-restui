@@ -22,14 +22,9 @@ publish:（可选）一个字符串或者对象。表明当save或update动作�
 
 ```js
 import Form from "react-jsonschema-form";
-import PubSub from 'pubsub-js';
 var RestReader=require('react-restui/lib/client/rest_reader');
 
 const Viewer=props=><pre>{JSON.stringify(props.data,null,2)}</pre>
-
-function publishChange(){
-  PubSub.publish('changed');
-}
 
 var RestWriter=require('react-restui/lib/client/rest_writer');
 
@@ -43,11 +38,11 @@ const schema = {
   }
 };
 
-const todoForm=(props)=><Form schema={schema} onSubmit={(obj)=>props.save(obj.formData).then(publishChange)}/>
+const todoForm=(props)=><Form schema={schema} onSubmit={(obj)=>props.save(obj.formData)}/>
 
 ReactDOM.render(
   <div>
-    <RestWriter url="/api/post" view={todoForm} />
+    <RestWriter url="/api/post" view={todoForm}  publish="changed"/>
     <RestReader url='/api/post' view={Viewer} subscribe={["changed"]}/> 
   </div> ,
   document.getElementById('root')
